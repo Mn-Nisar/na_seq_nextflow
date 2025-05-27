@@ -1,0 +1,11 @@
+STAR \
+--genomeDir Gen_Dir_hg38 \
+--readFilesIn data/SRR8723780/SRR8723780_1.fastq.gz data/SRR8723780/SRR8723780_2.fastq.gz \
+--runThreadN 8 \
+--outFileNamePrefix SRR8723780_ \
+--outSAMtype SAM \
+--quantMode TranscriptomeSAM GeneCounts \
+--sjdbGTFfile gencode.v48.chr_patch_hapl_scaff.basic.annotation.gtf \
+--alignEndsType EndToEnd \
+--alignIntronMax 1000000 \
+--readFilesCommand zcat
