@@ -2,8 +2,8 @@
 nextflow.enable.dsl=2
 
 params.reads      = "$baseDir/data/*/*_{1,2}.fastq.gz"
-params.genomeDir  = "Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa"
-params.gtf        = "gencode.v38.annotation.gtf"
+params.genomeDir  = "$baseDir/Gen_Dir_hg38"
+params.gtf        = "$baseDir/gencode.v48.chr_patch_hapl_scaff.basic.annotation.gtf"
 params.outdir     = "$baseDir/results"
 params.threads    = 8
 
@@ -31,7 +31,7 @@ process ALIGN_AND_SORT {
     script:
     """
     STAR \
-        --genomeDir ${params.genomeDir} \
+        --genomeDir ${file(params.genomeDir)} \
         --readFilesIn ${reads[0]} ${reads[1]} \
         --runThreadN ${params.threads} \
         --outFileNamePrefix ${sample_id}_ \
@@ -47,9 +47,8 @@ process ALIGN_AND_SORT {
     """
 }
 
+
 workflow {
     read_pairs | ALIGN_AND_SORT
 }
 
-
-STAR --runThreadN 90 --runMode genomeGenerate --genomeDir Gen_Dir_hg38 --genomeFastaFiles GRCh38.p14.genome.fa --sjdbGTFfile gencode.v48.chr_patch_hapl_scaff.basic.annotation.gtf --sjdbOverhang 100
